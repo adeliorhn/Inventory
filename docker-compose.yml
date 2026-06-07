@@ -1,0 +1,43 @@
+name: adelio-inventory
+
+services:
+  traefik:
+    image: traefik:v3.1
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8090:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - edge
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      APP_URL: ${APP_URL:-http://inventory.localhost}
+      DB_CONNECTION: pgsql
+      DB_SSLMODE: require
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.inventory.rule=Host(`${APP_HOST:-inventory.localhost}`)"
+      - "traefik.http.routers.inventory.entrypoints=web"
+      - "traefik.http.services.inventory.loadbalancer.server.port=8000"
+    networks:
+      - edge
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+networks:
+  edge:
+    driver: bridge
