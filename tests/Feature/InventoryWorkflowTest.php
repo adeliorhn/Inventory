@@ -12,6 +12,14 @@ class InventoryWorkflowTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $user = \App\Models\User::factory()->create();
+        $this->actingAs($user);
+    }
+
     public function test_item_can_be_recorded_and_low_stock_alert_is_created(): void
     {
         $response = $this->post(route('items.store'), [

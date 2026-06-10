@@ -22,6 +22,23 @@
             <a @class(['nav-link', 'is-active' => request()->routeIs('dashboard')]) href="{{ route('dashboard') }}">Pencatatan</a>
             <a @class(['nav-link', 'is-active' => request()->routeIs('reports.*')]) href="{{ route('reports.index') }}">Laporan</a>
         </nav>
+
+        @auth
+            <div class="user-menu">
+                <div class="user-profile">
+                    @if (auth()->user()->avatar_url)
+                        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="user-avatar">
+                    @else
+                        <div class="user-avatar-placeholder">{{ substr(auth()->user()->name, 0, 1) }}</div>
+                    @endif
+                    <span class="user-name">{{ auth()->user()->name }}</span>
+                </div>
+                <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                    @csrf
+                    <button type="submit" class="button button-secondary button-small">Logout</button>
+                </form>
+            </div>
+        @endauth
     </header>
 
     <main class="page">
