@@ -1,5 +1,11 @@
+@php
+    $theme = request()->cookie('theme', 'light');
+    if (!in_array($theme, ['light', 'dark'])) {
+        $theme = 'light';
+    }
+@endphp
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="{{ $theme }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -116,9 +122,109 @@
             font-size: 13px;
             text-align: left;
         }
+
+        /* Floating Theme Toggle on Login Page */
+        .theme-toggle-container {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            z-index: 50;
+        }
+
+        .theme-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: var(--text);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(23, 32, 29, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 6px 16px rgba(23, 32, 29, 0.1);
+        }
+
+        [data-theme="dark"] .theme-toggle-btn {
+            background: rgba(30, 41, 59, 0.85);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .theme-toggle-btn:hover {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        /* Show/hide icons based on active theme */
+        .theme-icon {
+            display: none;
+        }
+        [data-theme="dark"] .sun-icon {
+            display: block;
+        }
+        [data-theme="dark"] .moon-icon {
+            display: none;
+        }
+        [data-theme="light"] .sun-icon {
+            display: none;
+        }
+        [data-theme="light"] .moon-icon {
+            display: block;
+        }
+
+        /* Theme variations for Login Page */
+        [data-theme="dark"] .login-page {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        [data-theme="dark"] .login-card {
+            background: rgba(30, 41, 59, 0.85);
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .btn-google {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .btn-google:hover {
+            background-color: #334155;
+            border-color: #475569;
+        }
     </style>
 </head>
-<body class="login-page">
+<body class="login-page" data-theme="{{ $theme }}">
+
+    <div class="theme-toggle-container">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema">
+            <!-- Moon Icon -->
+            <svg class="theme-icon moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <!-- Sun Icon -->
+            <svg class="theme-icon sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </div>
 
     <div class="login-card">
         <div class="login-header">
@@ -156,5 +262,17 @@
         </div>
     </div>
 
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        toggleBtn.addEventListener('click', () => {
+            const htmlElement = document.documentElement;
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            document.cookie = "theme=" + newTheme + "; path=/; max-age=" + (60 * 60 * 24 * 365);
+        });
+    </script>
 </body>
 </html>

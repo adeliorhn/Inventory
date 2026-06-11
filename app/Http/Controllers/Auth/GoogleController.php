@@ -42,22 +42,33 @@ class GoogleController extends Controller
             ->orWhere('email', $googleUser->getEmail())
             ->first();
 
+        // Get theme from cookie if present and valid
+        $cookieTheme = request()->cookie('theme');
+        $validTheme = in_array($cookieTheme, ['light', 'dark']) ? $cookieTheme : null;
+
         if ($user) {
             // Update user details if necessary
+            $userTheme = $validTheme ?? ($user->theme ?? 'light');
             $user->update([
                 'google_id' => $googleUser->getId(),
                 'avatar_url' => $googleUser->getAvatar(),
+                'theme' => $userTheme,
             ]);
         } else {
             // Create a new user
+            $userTheme = $validTheme ?? 'light';
             $user = User::create([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
                 'avatar_url' => $googleUser->getAvatar(),
                 'password' => null,
+                'theme' => $userTheme,
             ]);
         }
+
+        // Keep the cookie in sync
+        cookie()->queue('theme', $userTheme, 60 * 24 * 365, null, null, false, false);
 
         Auth::login($user);
 

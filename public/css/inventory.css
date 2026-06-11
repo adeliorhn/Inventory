@@ -16,6 +16,33 @@
     --info: #0f766e;
     --info-soft: #ccfbf1;
     --shadow: 0 12px 30px rgba(23, 32, 29, 0.08);
+    --navbar-bg: rgba(255, 255, 255, 0.94);
+}
+
+[data-theme="dark"] {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-soft: #334155;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --border: #334155;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --success: #22c55e;
+    --success-soft: rgba(34, 197, 94, 0.15);
+    --warning: #f59e0b;
+    --warning-soft: rgba(245, 158, 11, 0.15);
+    --danger: #ef4444;
+    --danger-soft: rgba(239, 68, 68, 0.15);
+    --info: #06b6d4;
+    --info-soft: rgba(6, 182, 212, 0.15);
+    --shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    --navbar-bg: rgba(30, 41, 59, 0.94);
+}
+
+/* Global transitions for theme switching */
+body, input, select, textarea, .topbar, .panel, .metric, .activity, .notice, .message, .button, .nav-link, .print-sheet {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 * {
@@ -51,7 +78,7 @@ textarea {
     gap: 24px;
     min-height: 72px;
     padding: 14px clamp(18px, 4vw, 44px);
-    background: rgba(255, 255, 255, 0.94);
+    background: var(--navbar-bg);
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(14px);
 }
@@ -282,7 +309,7 @@ textarea {
     padding: 10px 12px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
     color: var(--text);
 }
 
@@ -441,7 +468,7 @@ td small {
     padding: 12px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
 }
 
 .notice,
@@ -521,7 +548,7 @@ nav[role="navigation"] span {
     padding: 6px 10px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
     text-decoration: none;
 }
 
@@ -534,7 +561,7 @@ nav[role="navigation"] span {
     margin: 24px auto;
     padding: 32px;
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
 }
 
 .print-header {
@@ -698,4 +725,25 @@ nav[role="navigation"] span {
 
 .logout-form {
     margin: 0;
+}
+
+/* Custom Theme Switch Styles */
+.theme-icon {
+    display: none;
+}
+
+[data-theme="dark"] .sun-icon {
+    display: block;
+}
+
+[data-theme="dark"] .moon-icon {
+    display: none;
+}
+
+[data-theme="light"] .sun-icon {
+    display: none;
+}
+
+[data-theme="light"] .moon-icon {
+    display: block;
 }

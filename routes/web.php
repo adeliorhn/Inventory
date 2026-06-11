@@ -35,5 +35,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifikasi/{alert}/baca', [NotificationController::class, 'markAlertRead'])->name('alerts.read');
     Route::post('/komunikasi/{message}/selesai', [NotificationController::class, 'resolveMessage'])->name('messages.resolve');
 
+    Route::post('/theme', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'theme' => 'required|in:light,dark',
+        ]);
+        
+        $theme = $request->input('theme');
+        
+        if (auth()->check()) {
+            auth()->user()->update(['theme' => $theme]);
+        }
+        
+        return response()->json(['success' => true])
+            ->cookie('theme', $theme, 60 * 24 * 365, null, null, false, false);
+    })->name('theme.update');
+
     Route::post('/logout', [GoogleController::class, 'logout'])->name('logout');
 });
