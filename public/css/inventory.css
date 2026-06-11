@@ -747,3 +747,83 @@ nav[role="navigation"] span {
 [data-theme="light"] .moon-icon {
     display: block;
 }
+
+/* Dark Mode Readability Overrides */
+[data-theme="dark"] .flash {
+    border-color: rgba(34, 197, 94, 0.4);
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+}
+
+[data-theme="dark"] .error-box {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .error-box ul {
+    color: #fecaca;
+}
+
+[data-theme="dark"] .error-alert {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+[data-theme="dark"] .row-actions summary {
+    color: #60a5fa;
+}
+
+[data-theme="dark"] .metric-warning span {
+    color: #fef08a;
+}
+
+[data-theme="dark"] .metric-warning strong {
+    color: #f59e0b;
+}
+
+[data-theme="dark"] .metric-success span {
+    color: #bbf7d0;
+}
+
+[data-theme="dark"] .metric-success strong {
+    color: #22c55e;
+}
+
+[data-theme="dark"] .metric-danger span {
+    color: #fecaca;
+}
+
+[data-theme="dark"] .metric-danger strong {
+    color: #ef4444;
+}
+
+[data-theme="dark"] .metric-info span {
+    color: #cffafe;
+}
+
+[data-theme="dark"] .metric-info strong {
+    color: #06b6d4;
+}
+
+[data-theme="dark"] .notice-critical,
+[data-theme="dark"] .message-urgent {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="dark"] .notice-critical strong,
+[data-theme="dark"] .message-urgent strong {
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .notice-critical p,
+[data-theme="dark"] .message-urgent p {
+    color: #fecaca;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
