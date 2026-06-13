@@ -827,3 +827,32 @@ nav[role="navigation"] span {
 [data-theme="dark"] textarea::placeholder {
     color: #94a3b8;
 }
+
+/* Media elements styling */
+.item-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.item-video-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--info-soft);
+    color: var(--info);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 4px;
+    width: fit-content;
+}
+
+.item-video-badge:hover {
+    background: var(--info);
+    color: #fff;
+}

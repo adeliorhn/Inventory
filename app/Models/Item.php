@@ -19,6 +19,10 @@ class Item extends Model
         'stock',
         'min_stock',
         'description',
+        'image_url',
+        'image_public_id',
+        'video_url',
+        'video_public_id',
     ];
 
     protected function casts(): array
@@ -42,5 +46,20 @@ class Item extends Model
     public function getIsLowStockAttribute(): bool
     {
         return $this->stock <= $this->min_stock;
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Item $item) {
+            $storageService = resolve(\App\Services\CloudinaryStorageService::class);
+
+            if ($item->image_public_id) {
+                $storageService->delete($item->image_public_id, 'image');
+            }
+
+            if ($item->video_public_id) {
+                $storageService->delete($item->video_public_id, 'video');
+            }
+        });
     }
 }

@@ -42,7 +42,7 @@
         <div class="panel-heading">
             <h2>Tambah Barang</h2>
         </div>
-        <form class="form-grid" action="{{ route('items.store') }}" method="POST">
+        <form class="form-grid" action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label>
                 Kode SKU
@@ -75,6 +75,16 @@
             <label class="span-2">
                 Catatan
                 <textarea name="description" rows="3" maxlength="1000" placeholder="Detail singkat barang">{{ old('description') }}</textarea>
+            </label>
+            <label>
+                Gambar barang (JPG, JPEG, PNG, WEBP)
+                <input type="file" name="image" accept="image/jpeg,image/png,image/webp">
+                <small class="muted" style="margin-top: 2px;">Maks. 5MB</small>
+            </label>
+            <label>
+                Video barang (MP4, MOV)
+                <input type="file" name="video" accept="video/mp4,video/quicktime">
+                <small class="muted" style="margin-top: 2px;">Maks. 50MB</small>
             </label>
             <button class="button span-2" type="submit">
                 <span aria-hidden="true">+</span>
@@ -153,8 +163,25 @@
                 @forelse ($items as $item)
                     <tr>
                         <td>
-                            <strong>{{ $item->name }}</strong>
-                            <small>{{ $item->sku }}</small>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                @if ($item->image_url)
+                                    <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="item-thumbnail">
+                                @else
+                                    <div class="user-avatar-placeholder" style="width: 50px; height: 50px; border-radius: 6px; font-size: 18px;">?</div>
+                                @endif
+                                <div>
+                                    <strong>{{ $item->name }}</strong>
+                                    <small>{{ $item->sku }}</small>
+                                    @if ($item->video_url)
+                                        <a href="{{ $item->video_url }}" target="_blank" class="item-video-badge">
+                                            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" style="display: inline-block; vertical-align: middle;">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                            Play Video
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                         </td>
                         <td>{{ $item->category ?? '-' }}</td>
                         <td>{{ $item->location ?? '-' }}</td>
@@ -167,17 +194,25 @@
                         <td>
                             <details class="row-actions">
                                 <summary>Ubah</summary>
-                                <form class="edit-form" action="{{ route('items.update', $item) }}" method="POST">
+                                <form class="edit-form" action="{{ route('items.update', $item) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <input name="sku" value="{{ $item->sku }}" required maxlength="50">
-                                    <input name="name" value="{{ $item->name }}" required maxlength="150">
+                                    <input name="sku" value="{{ $item->sku }}" required maxlength="50" placeholder="Kode SKU">
+                                    <input name="name" value="{{ $item->name }}" required maxlength="150" placeholder="Nama barang">
                                     <input name="category" value="{{ $item->category }}" maxlength="100" placeholder="Kategori">
-                                    <input name="unit" value="{{ $item->unit }}" required maxlength="30">
+                                    <input name="unit" value="{{ $item->unit }}" required maxlength="30" placeholder="Satuan">
                                     <input name="location" value="{{ $item->location }}" maxlength="120" placeholder="Lokasi">
-                                    <input type="number" name="stock" value="{{ $item->stock }}" required min="0">
-                                    <input type="number" name="min_stock" value="{{ $item->min_stock }}" required min="0">
-                                    <textarea name="description" rows="2" maxlength="1000">{{ $item->description }}</textarea>
+                                    <input type="number" name="stock" value="{{ $item->stock }}" required min="0" placeholder="Stok">
+                                    <input type="number" name="min_stock" value="{{ $item->min_stock }}" required min="0" placeholder="Min stok">
+                                    <textarea name="description" rows="2" maxlength="1000" placeholder="Catatan">{{ $item->description }}</textarea>
+                                    <div style="display: grid; gap: 4px;">
+                                        <small class="muted" style="font-size: 11px;">Ganti Gambar (JPG, JPEG, PNG, WEBP):</small>
+                                        <input type="file" name="image" accept="image/jpeg,image/png,image/webp">
+                                    </div>
+                                    <div style="display: grid; gap: 4px;">
+                                        <small class="muted" style="font-size: 11px;">Ganti Video (MP4, MOV):</small>
+                                        <input type="file" name="video" accept="video/mp4,video/quicktime">
+                                    </div>
                                     <button class="button button-small" type="submit">Simpan</button>
                                 </form>
                                 <form action="{{ route('items.destroy', $item) }}" method="POST" data-confirm="Hapus barang ini dari inventory?">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Services\CloudinaryStorageService;
 use App\Services\InventoryAlertService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,9 +11,26 @@ use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
-    public function store(Request $request, InventoryAlertService $alerts): RedirectResponse
-    {
-        $item = Item::create($this->validatedData($request));
+    public function store(
+        Request $request,
+        InventoryAlertService $alerts,
+        CloudinaryStorageService $cloudinaryService
+    ): RedirectResponse {
+        $validated = $this->validatedData($request);
+
+        if ($request->hasFile('image')) {
+            $uploadedImage = $cloudinaryService->uploadImage($request->file('image'));
+            $validated['image_url'] = $uploadedImage['url'];
+            $validated['image_public_id'] = $uploadedImage['public_id'];
+        }
+
+        if ($request->hasFile('video')) {
+            $uploadedVideo = $cloudinaryService->uploadVideo($request->file('video'));
+            $validated['video_url'] = $uploadedVideo['url'];
+            $validated['video_public_id'] = $uploadedVideo['public_id'];
+        }
+
+        $item = Item::create($validated);
 
         $alerts->syncLowStockAlert($item);
 
@@ -21,9 +39,35 @@ class ItemController extends Controller
             ->with('status', 'Barang berhasil dicatat.');
     }
 
-    public function update(Request $request, Item $item, InventoryAlertService $alerts): RedirectResponse
-    {
-        $item->update($this->validatedData($request, $item));
+    public function update(
+        Request $request,
+        Item $item,
+        InventoryAlertService $alerts,
+        CloudinaryStorageService $cloudinaryService
+    ): RedirectResponse {
+        $validated = $this->validatedData($request, $item);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($item->image_public_id) {
+                $cloudinaryService->delete($item->image_public_id, 'image');
+            }
+            $uploadedImage = $cloudinaryService->uploadImage($request->file('image'));
+            $validated['image_url'] = $uploadedImage['url'];
+            $validated['image_public_id'] = $uploadedImage['public_id'];
+        }
+
+        if ($request->hasFile('video')) {
+            // Delete old video if it exists
+            if ($item->video_public_id) {
+                $cloudinaryService->delete($item->video_public_id, 'video');
+            }
+            $uploadedVideo = $cloudinaryService->uploadVideo($request->file('video'));
+            $validated['video_url'] = $uploadedVideo['url'];
+            $validated['video_public_id'] = $uploadedVideo['public_id'];
+        }
+
+        $item->update($validated);
 
         $alerts->syncLowStockAlert($item->refresh());
 
@@ -60,6 +104,9 @@ class ItemController extends Controller
             'stock' => ['required', 'integer', 'min:0'],
             'min_stock' => ['required', 'integer', 'min:0'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'video' => ['nullable', 'file', 'mimes:mp4,mov', 'max:51200'],
         ]);
     }
 }
+
