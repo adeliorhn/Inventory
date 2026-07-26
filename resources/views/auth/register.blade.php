@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - StockFlow</title>
+    <title>Daftar - StockFlow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -140,7 +140,7 @@
         /* Right Form Section */
         .form-section {
             background-color: #04060a;
-            padding: 32px 40px;
+            padding: 24px 40px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -156,14 +156,14 @@
         }
 
         .form-header {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-header h2 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #ffffff;
-            margin: 0 0 6px 0;
+            margin: 0 0 4px 0;
             letter-spacing: -0.5px;
         }
 
@@ -171,35 +171,35 @@
             font-size: 13px;
             color: #64748b;
             margin: 0;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
 
         .form-group label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #94a3b8;
         }
 
         .form-group input {
             width: 100%;
-            padding: 11px 14px;
+            padding: 9px 12px;
             background: #0d121d;
             border: 1px solid #1e293b;
             border-radius: 8px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: all 0.2s ease;
         }
@@ -214,32 +214,9 @@
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
 
-        .form-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #64748b;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .remember-me input[type="checkbox"] {
-            accent-color: #38bdf8;
-            width: 15px;
-            height: 15px;
-            cursor: pointer;
-        }
-
         .btn-primary {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             background: #ffffff;
             color: #090d14;
             font-size: 14px;
@@ -249,6 +226,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+            margin-top: 4px;
         }
 
         .btn-primary:hover {
@@ -264,7 +242,7 @@
         .divider {
             display: flex;
             align-items: center;
-            margin: 16px 0;
+            margin: 12px 0;
             color: #475569;
             font-size: 10px;
             font-weight: 700;
@@ -289,12 +267,12 @@
             justify-content: center;
             gap: 10px;
             width: 100%;
-            padding: 11px;
+            padding: 10px;
             background: #0d121d;
             border: 1px solid #1e293b;
             border-radius: 8px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
@@ -308,12 +286,12 @@
         }
 
         .btn-google svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
         }
 
         .form-footer {
-            margin-top: 20px;
+            margin-top: 14px;
             text-align: center;
             font-size: 13px;
             color: #64748b;
@@ -331,25 +309,14 @@
         }
 
         .error-alert {
-            margin-bottom: 16px;
-            padding: 10px 14px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
             border-radius: 8px;
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #fca5a5;
             font-size: 12px;
-            line-height: 1.4;
-        }
-
-        .flash-alert {
-            margin-bottom: 16px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #7dd3fc;
-            font-size: 12px;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         /* Floating Theme Toggle */
@@ -487,8 +454,8 @@
 
             <div class="form-wrapper">
                 <div class="form-header">
-                    <h2>Login</h2>
-                    <p>Selamat datang di StockFlow. Silakan masuk ke akun internal Anda.</p>
+                    <h2>Buat Akun</h2>
+                    <p>Daftarkan akun baru Anda untuk mulai mengelola inventori.</p>
                 </div>
 
                 @if ($errors->any())
@@ -499,18 +466,17 @@
                     </div>
                 @endif
 
-                @if (session('status'))
-                    <div class="flash-alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('login.post') }}" class="auth-form">
+                <form method="POST" action="{{ route('register.post') }}" class="auth-form">
                     @csrf
                     
                     <div class="form-group">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="Nama Anda">
+                    </div>
+
+                    <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="email@contoh.com">
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="email@contoh.com">
                     </div>
 
                     <div class="form-group">
@@ -518,15 +484,13 @@
                         <input type="password" id="password" name="password" required placeholder="******">
                     </div>
 
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <span>Ingat saya</span>
-                        </label>
+                    <div class="form-group">
+                        <label for="password_confirmation">Konfirmasi Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="******">
                     </div>
 
                     <button type="submit" class="btn-primary">
-                        Login
+                        Daftar Akun
                     </button>
                 </form>
 
@@ -545,7 +509,7 @@
                 </a>
 
                 <div class="form-footer">
-                    Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a>
+                    Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
                 </div>
             </div>
         </div>

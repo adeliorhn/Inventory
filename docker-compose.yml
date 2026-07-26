@@ -1,4 +1,4 @@
-name: adelio-inventory
+name: stockflow
 
 services:
   traefik:

@@ -1,4 +1,4 @@
-# Adelio Inventory
+# StockFlow
 
 Web app inventory barang berbasis Laravel, PostgreSQL Neon, Docker Compose, dan Traefik.
 

@@ -15,7 +15,7 @@
 <main class="print-sheet">
     <section class="print-header">
         <div>
-            <p class="eyebrow">Adelio Inventory</p>
+            <p class="eyebrow">StockFlow</p>
             <h1>Laporan Inventory Barang</h1>
             <p>{{ $periodLabel }} - Dicetak {{ now()->format('d M Y H:i') }}</p>
         </div>

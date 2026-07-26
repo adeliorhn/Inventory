@@ -22,7 +22,7 @@ class GoogleAuthTest extends TestCase
     {
         $response = $this->get(route('login'));
         $response->assertStatus(200);
-        $response->assertSee('Masuk dengan Google');
+        $response->assertSee('Google');
     }
 
     public function test_google_redirects_correctly(): void

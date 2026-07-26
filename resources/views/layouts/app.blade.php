@@ -10,16 +10,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Adelio Inventory')</title>
+    <title>@yield('title', 'StockFlow')</title>
     <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
     <script defer src="{{ asset('js/inventory.js') }}"></script>
 </head>
 <body>
     <header class="topbar">
-        <a class="brand" href="{{ route('dashboard') }}" aria-label="Adelio Inventory">
-            <span class="brand-mark">AI</span>
+        <a class="brand" href="{{ route('dashboard') }}" aria-label="StockFlow">
+            <span class="brand-mark">SF</span>
             <span>
-                <strong>Adelio Inventory</strong>
+                <strong>StockFlow</strong>
                 <small>Kontrol barang operasional</small>
             </span>
         </a>
