@@ -12,12 +12,15 @@ class Item extends Model
 
     protected $fillable = [
         'sku',
+        'barcode',
         'name',
         'category',
         'unit',
         'location',
         'stock',
         'min_stock',
+        'price',
+        'is_active',
         'description',
         'image_url',
         'image_public_id',
@@ -30,6 +33,8 @@ class Item extends Model
         return [
             'stock' => 'integer',
             'min_stock' => 'integer',
+            'price' => 'decimal:2',
+            'is_active' => 'boolean',
         ];
     }
 

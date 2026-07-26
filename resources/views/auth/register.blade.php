@@ -47,10 +47,10 @@
 
         /* Left Hero Section */
         .hero-section {
-            background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.14) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%),
                         #080c14;
-            padding: 32px 48px;
+            padding: 32px 44px 28px 44px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -61,35 +61,40 @@
         }
 
         .brand-logo {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 12px;
             text-decoration: none;
         }
 
         .brand-icon {
-            width: 36px;
-            height: 36px;
-            background: #2563eb;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
             color: #ffffff;
-            font-weight: 800;
-            font-size: 16px;
-            border-radius: 9px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 22px;
+            height: 22px;
+            color: #ffffff;
         }
 
         .brand-name {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.5px;
         }
 
         .hero-content {
-            margin-top: 20px;
+            margin-top: 18px;
             max-width: 560px;
         }
 
@@ -107,16 +112,17 @@
         }
 
         .hero-subtitle {
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15px;
+            line-height: 1.75;
             color: #94a3b8;
-            margin: 0 0 20px 0;
+            margin: 0 0 16px 0;
         }
 
         .dashboard-preview-card {
             width: 100%;
-            max-height: 310px;
-            border-radius: 16px;
+            flex: 1;
+            min-height: 0;
+            border-radius: 18px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(15, 23, 42, 0.6);
@@ -125,16 +131,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: auto;
+            padding: 8px;
+            margin-top: 8px;
         }
 
         .dashboard-preview-card img {
             width: 100%;
             height: 100%;
-            max-height: 310px;
+            max-height: 100%;
             display: block;
-            object-fit: cover;
-            object-position: top center;
+            object-fit: contain;
         }
 
         /* Right Form Section */
@@ -424,7 +430,13 @@
         <div class="hero-section">
             <div>
                 <a href="#" class="brand-logo">
-                    <div class="brand-icon">SF</div>
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                            <path d="m3.3 7 8.7 5 8.7-5"/>
+                            <path d="M12 22V12"/>
+                        </svg>
+                    </div>
                     <span class="brand-name">StockFlow</span>
                 </a>
 
@@ -444,7 +456,7 @@
             </div>
         </div>
 
-        <!-- Right Form Column -->
+        <!-- Right Form Section -->
         <div class="form-section">
             <button id="theme-toggle" class="theme-toggle-btn" aria-label="Ubah Tema">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

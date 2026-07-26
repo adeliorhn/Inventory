@@ -36,7 +36,7 @@ class ItemController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Barang berhasil dicatat.');
+            ->with('status', 'Produk berhasil ditambahkan.');
     }
 
     public function update(
@@ -48,7 +48,6 @@ class ItemController extends Controller
         $validated = $this->validatedData($request, $item);
 
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
             if ($item->image_public_id) {
                 $cloudinaryService->delete($item->image_public_id, 'image');
             }
@@ -58,7 +57,6 @@ class ItemController extends Controller
         }
 
         if ($request->hasFile('video')) {
-            // Delete old video if it exists
             if ($item->video_public_id) {
                 $cloudinaryService->delete($item->video_public_id, 'video');
             }
@@ -73,7 +71,18 @@ class ItemController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Data barang berhasil diperbarui.');
+            ->with('status', 'Data produk berhasil diperbarui.');
+    }
+
+    public function toggleStatus(Item $item): RedirectResponse
+    {
+        $item->update(['is_active' => ! $item->is_active]);
+
+        $statusText = $item->is_active ? 'diaktifkan' : 'dinonaktifkan';
+
+        return redirect()
+            ->route('dashboard')
+            ->with('status', "Status produk {$item->name} berhasil {$statusText}.");
     }
 
     public function destroy(Item $item): RedirectResponse
@@ -82,7 +91,7 @@ class ItemController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Barang dihapus dari inventory.');
+            ->with('status', 'Produk berhasil dihapus dari inventory.');
     }
 
     /**
@@ -97,16 +106,18 @@ class ItemController extends Controller
                 'max:50',
                 Rule::unique('items', 'sku')->ignore($item),
             ],
+            'barcode' => ['nullable', 'string', 'max:100'],
             'name' => ['required', 'string', 'max:150'],
             'category' => ['nullable', 'string', 'max:100'],
             'unit' => ['required', 'string', 'max:30'],
             'location' => ['nullable', 'string', 'max:120'],
             'stock' => ['required', 'integer', 'min:0'],
             'min_stock' => ['required', 'integer', 'min:0'],
+            'price' => ['nullable', 'numeric', 'min:0'],
+            'is_active' => ['nullable', 'boolean'],
             'description' => ['nullable', 'string', 'max:1000'],
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
             'video' => ['nullable', 'file', 'mimes:mp4,mov', 'max:51200'],
         ]);
     }
 }
-
